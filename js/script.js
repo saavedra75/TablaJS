@@ -2,43 +2,52 @@ window.onload = setUpPage;
 
 
 function setUpPage(event) {
+
+    
     let cuerpo = document.querySelector("body");
-
+    /*1
     let figura = createFigure("img/tun.jpeg", "Niente e vero, tutto é permesso");
-    cuerpo.appendChild(figura);
+    cuerpo.appendChild(figura);*/
 
-    let tabla = crearTabla(3, 7);
+    let tabla = crearTabla(7, 3);
     cuerpo.appendChild(tabla);
 
     let thead = document.getElementsByTagName("thead")[0];
     thead.style.textAlign="center";
     thead.rows[0].cells[0].textContent = "";
-    thead.rows[0].cells[1].textContent = "Elías";
-    thead.rows[0].cells[2].textContent = "David";
-    thead.rows[0].cells[3].textContent = "Iván";
-    thead.rows[0].cells[4].textContent = "Carlos";
-    thead.rows[0].cells[5].textContent = "Ismael";
-    thead.rows[0].cells[6].textContent = "José Manuel";
+    thead.rows[0].cells[1].textContent = "Calificación";
+    thead.rows[0].cells[2].textContent = "Motivo";
 
 
     let tbody = document.getElementsByTagName("tbody")[0];
     tbody.style.textAlign="center";
-    tbody.rows[0].cells[0].textContent = "Calificación";
+    tbody.rows[0].cells[0].textContent = "Elías";
     tbody.rows[0].cells[1].textContent = "10";
-    tbody.rows[0].cells[2].textContent = "10";
-    tbody.rows[0].cells[3].textContent = "10";
-    tbody.rows[0].cells[4].textContent = "10";
-    tbody.rows[0].cells[5].textContent = "10";
-    tbody.rows[0].cells[6].textContent = "10";
+    tbody.rows[0].cells[2].textContent = "Muy buen alumno";
 
-    tbody.rows[1].cells[0].textContent = "Motivo";
-    tbody.rows[1].cells[1].textContent = "Es un genio";
-    tbody.rows[1].cells[2].textContent = "De lo más currante";
-    tbody.rows[1].cells[3].textContent = "No lo sé en verdad";
-    tbody.rows[1].cells[4].textContent = "Me cae bien";
-    tbody.rows[1].cells[5].textContent = "Le gusta JavaScript";
-    tbody.rows[1].cells[6].textContent = "Porfa¿?";
+    tbody.rows[1].cells[0].textContent = "Abel";
+    tbody.rows[1].cells[1].textContent = "10";
+    tbody.rows[1].cells[2].textContent = "Por pena";
+
+    tbody.rows[2].cells[0].textContent = "Jose Manuel";
+    tbody.rows[2].cells[1].textContent = "10";
+    tbody.rows[2].cells[2].textContent = "Por pena";
     
+    tbody.rows[3].cells[0].textContent = "Ivan Bisan";
+    tbody.rows[3].cells[1].textContent = "10";
+    tbody.rows[3].cells[2].textContent = "Ahí está el tío";
+
+    tbody.rows[4].cells[0].textContent = "Carlos";
+    tbody.rows[4].cells[1].textContent = "10";
+    tbody.rows[4].cells[2].textContent = "8.537981, -80.782127";
+
+
+    tbody.rows[5].cells[0].textContent = "Ismael";
+    tbody.rows[5].cells[1].textContent = "10";
+    tbody.rows[5].cells[2].textContent = "Por pena";
+
+    botonEnviar = document.getElementById("botonEnviar");
+    botonEnviar.addEventListener("click", addRegistro);
 }
 
 const createImagen = function(src){
@@ -79,6 +88,26 @@ const createTD = function(contenido){
     return TD;
 }
 
+const crearBotonEliminar = function(){
+    let botonEliminar = document.createElement("button");
+    botonEliminar.className = "botonEliminar";
+    botonEliminar.textContent = "Eliminar";
+    botonEliminar.addEventListener("click", function(){
+        eliminarElemento(this);
+    });
+    return botonEliminar;
+}
+
+const crearBotonEditar = function(){
+    let botonEditar = document.createElement("button");
+    botonEditar.id = "botonEditar";
+    botonEditar.textContent = "Editar";
+    botonEditar.addEventListener("click", function(){
+        editarRegistro(this);
+    });    
+    return botonEditar;
+}
+
 const createTH = function(contenido){
     let TH = document.createElement("th");
     TH.style.border = "1px solid black";
@@ -99,7 +128,9 @@ const createTHeader = function(){
 
 
 const createTBody = function(){
-    return document.createElement("tbody");
+    let tbody = document.createElement("tbody");
+    tbody.id = "cuerpoTabla";
+    return tbody;
 }
 
 const createTFooter = function(){
@@ -133,17 +164,16 @@ const crearTabla = function(altura, anchura){
 
     thead.appendChild(trParaThead);
 
-
-    let TRParaBody = createTR();
-
     
 
 for (let i = 0; i < altura - 1; i++) {
-    let fila = createTR();
+    let TRParaBody = createTR();
     for (let j = 0; j < anchura; j++) {
-        fila.appendChild(createTD("hola"));
+        TRParaBody.appendChild(createTD("hola"));
     }
-    tbody.appendChild(fila);
+    TRParaBody.appendChild(createTD().appendChild(crearBotonEditar()));
+    TRParaBody.appendChild(createTD().appendChild(crearBotonEliminar()));
+    tbody.appendChild(TRParaBody);
 }
 
 
@@ -152,4 +182,57 @@ for (let i = 0; i < altura - 1; i++) {
     tabla.appendChild(tbody);
     tabla.appendChild(tfooter);
     return tabla;
+}
+
+
+const eliminarElemento = function(boton){
+    let fila = boton.closest("tr");
+    if (fila) {
+        fila.remove();
+    }}
+
+const addRegistro = function(event){
+
+    event.preventDefault();
+    //crea un td para cada campo y le añade el valor del input.
+    const nombre = document.createElement("td");
+    nombre.style.border = "1px solid black";
+    nombre.textContent = document.getElementById("nombre").value;
+
+    const nota = document.createElement("td");
+    nota.style.border = "1px solid black";
+    nota.textContent = document.getElementById("nota").value;
+
+    const motivo = document.createElement("td");
+    motivo.style.border = "1px solid black";
+    motivo.textContent = document.getElementById("motivo").value;
+    
+    //creo un tr con los botones
+    const botonEditar = document.createElement("td").appendChild(crearBotonEditar());
+    const botonEliminar = document.createElement("td").appendChild(crearBotonEliminar());
+
+
+    const tbody = document.getElementById("cuerpoTabla");
+
+
+    let TR = document.createElement("tr");
+    TR.appendChild(nombre);
+    TR.appendChild(nota);
+    TR.appendChild(motivo);
+    TR.appendChild(botonEditar);
+    TR.appendChild(botonEliminar);
+
+
+    tbody.appendChild(TR);
+}
+
+const editarRegistro = function(boton){
+    let fila = boton.closest("tr");
+    const campos = fila.getElementsByTagName("td");
+
+    campos[0].textContent = document.getElementById("nombre").value;
+
+    campos[1].textContent = document.getElementById("nota").value;
+
+    campos[2].textContent = document.getElementById("motivo").value;
 }
