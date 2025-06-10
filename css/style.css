@@ -1,0 +1,39 @@
+body{
+    background-color: beige;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table{
+    background-color: aquamarine;
+    border: 1px solid black;
+}
+
+form{
+    border-radius: 9px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid black;
+    padding: 13px;
+    background-color: lavender;
+    margin: 10px;
+}
+
+tbody{
+    background-color: coral;
+    color: beige;
+}
+
+caption{
+    background-color: bisque;
+    border: 1px dotted grey;
+}
+
+button{
+    border-radius: 20px;
+    margin: 2px;
+}
+
